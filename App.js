@@ -1,34 +1,27 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import {Button, StyleSheet, Text, View} from 'react-native';
-import {getFlightResults} from './backend/codewords queries';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 
-export default function App() {
-  const [flightResults, setFlightResults] = React.useState(null);
+import HomeScreen from './screens/HomeScreen';
+import TripsScreen from './screens/TripsScreen';
+import TranslationScreen from './screens/TranslationScreen';
+import ImagesScreen from './screens/ImagesScreen';
+import FlightSearchScreen from './screens/FlightSearchScreen'; // Assuming you have this screen
 
-  const handlePress = async () => {
-    ('handlePress')
-    const results = await getFlightResults();
-    console.log('results', results);
-    setFlightResults(results);
-  };
+const Stack = createStackNavigator();
 
-  return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Button
-            title="Get Flight Results"
-            onPress={handlePress}
-        />
-        {flightResults && <Text>{JSON.stringify(flightResults, null, 2)}</Text>}
-      </View>
-  );
-}
+const App = () => {
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="Home">
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Translation" component={TranslationScreen} />
+                <Stack.Screen name="Images" component={ImagesScreen} />
+                <Stack.Screen name="FlightSearch" component={FlightSearchScreen} />
+                {/* Add other screens as needed */}
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
